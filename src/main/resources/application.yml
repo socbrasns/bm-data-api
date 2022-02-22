@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: Benchmarker Data API
+  config:
+    import:
+    - optional:configserver:http://bm-data-config.sa-east-1.elasticbeanstalk.com
+  cloud:
+    config:
+      name: bm-data-api
+      label: master
+      username: shaddowuser
+      password: H7T*$
+---
+spring:
+  application:
+    name: bm-data-service-admin
+  config:
+    activate:
+      on-profile:
+      - dev
+    import:
+    - optional:configserver:http://localhost:8081
+  cloud:
+    config:
+      name: bm-data-api
+      label: dev
+      username: shaddowuser
+      password: H7T*$      
