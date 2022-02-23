@@ -3,7 +3,7 @@ spring:
     name: Benchmarker Data API
   config:
     import:
-    - optional:configserver:http://bm-data-config.sa-east-1.elasticbeanstalk.com
+    - optional:configserver:https://bm-data-config.herokuapp.com/
   cloud:
     config:
       name: bm-data-api
