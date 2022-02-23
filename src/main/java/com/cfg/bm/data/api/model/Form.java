@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.Null;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,13 +34,12 @@ public class Form implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToFormId")
 	@EqualsAndHashCode.Include
 	@ToString.Include
-	@Null
 	private long id;
 
 	@Column
 	@ToString.Include
 	private String version;
-	
+
 	@Column
 	@ToString.Include
 	private String name;
