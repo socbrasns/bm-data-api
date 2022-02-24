@@ -48,7 +48,7 @@ public class Form implements Serializable {
 	@NotBlank
 	private String name;
 
-	@ManyToMany // (fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@Nullable
 	private List<Hability> habilities;
 }
