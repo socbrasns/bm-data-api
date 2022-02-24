@@ -5,12 +5,14 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
+
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,12 +40,15 @@ public class Form implements Serializable {
 
 	@Column
 	@ToString.Include
+	@NotBlank
 	private String version;
 
 	@Column
 	@ToString.Include
+	@NotBlank
 	private String name;
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany // (fetch = FetchType.EAGER)
+	@Nullable
 	private List<Hability> habilities;
 }
