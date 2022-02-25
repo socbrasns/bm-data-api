@@ -9,7 +9,7 @@ public class CorsConfiguration implements WebFluxConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("*.herokuapp.com").allowedMethods("GET", "POST", "PUT", "DELETE",
+		registry.addMapping("/**").allowedOrigins("https://bm-data-gateway.herokuapp.com").allowedMethods("GET", "POST", "PUT", "DELETE",
 				"OPTIONS", "HEAD", "TRACE", "CONNECT");
 	}
 
