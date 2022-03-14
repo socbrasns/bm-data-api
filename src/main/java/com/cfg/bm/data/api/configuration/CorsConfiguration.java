@@ -9,8 +9,12 @@ public class CorsConfiguration implements WebFluxConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("https://bm-data-gateway.herokuapp.com").allowedMethods("GET", "POST", "PUT", "DELETE",
-				"OPTIONS", "HEAD", "TRACE", "CONNECT");
+		registry.addMapping("/**")
+			.allowedOrigins("https://bm-data-gateway.herokuapp.com", "http://localhost:8080", "http://localhost:4200")
+			.allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS", "HEAD", "TRACE", "CONNECT")
+			.allowCredentials(true)
+			.allowedHeaders("*")
+			;
 	}
 
 }

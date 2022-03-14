@@ -20,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 
 import com.cfg.bm.data.api.model.elements.KeyWord;
 import com.cfg.bm.data.api.model.subhability.SubHability;
+import com.cfg.bm.data.api.model.subhability.extrainfo.LevelComparation;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -44,7 +45,7 @@ public class Session implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToSessionId")
 	@EqualsAndHashCode.Include
 	@ToString.Include
-	private long id;
+	private Long id;
 
 	@Column
 	@NotNull
@@ -89,6 +90,6 @@ public class Session implements Serializable {
 	@ManyToMany
 	@JoinTable(inverseJoinColumns = @JoinColumn(name = "sub_hability_id"))
 	@ToString.Include
-	private List<SubHability> showedSubHabilities;
+	private List<LevelComparation> showedLevelComparationSubHabilities;
 
 }

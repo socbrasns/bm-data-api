@@ -26,7 +26,6 @@ public class FormController {
 
 	private final FormRepository formRepository;
 
-
 	@GetMapping
 	public Flux<Form> findAll() {
 		return Flux.fromIterable(formRepository.findAll());

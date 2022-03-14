@@ -37,7 +37,7 @@ public class Form implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToFormId")
 	@EqualsAndHashCode.Include
 	@ToString.Include
-	private long id;
+	private Long id;
 
 	@Column
 	@ToString.Include

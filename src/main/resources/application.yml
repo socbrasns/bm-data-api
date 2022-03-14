@@ -10,19 +10,3 @@ spring:
       label: master
       username: shaddowuser
       password: H7T*$
----
-spring:
-  application:
-    name: bm-data-service-admin
-  config:
-    activate:
-      on-profile:
-      - dev
-    import:
-    - optional:configserver:http://localhost:8081
-  cloud:
-    config:
-      name: bm-data-api
-      label: dev
-      username: shaddowuser
-      password: H7T*$      
