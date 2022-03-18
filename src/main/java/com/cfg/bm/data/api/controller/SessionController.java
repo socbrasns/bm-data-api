@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cfg.bm.data.api.model.Session;
-import com.cfg.bm.data.api.model.User;
 import com.cfg.bm.data.api.model.elements.KeyWord;
+import com.cfg.bm.data.api.model.security.User;
 import com.cfg.bm.data.api.repository.SessionRepository;
 import com.cfg.bm.data.api.repository.UserRepository;
 

@@ -11,38 +11,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cfg.bm.data.api.model.Form;
-import com.cfg.bm.data.api.repository.FormRepository;
+import com.cfg.bm.data.api.model.security.User;
+import com.cfg.bm.data.api.service.BmUserDetailsService;
 
 import lombok.AllArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/forms")
+@RequestMapping("/users")
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-public class FormController {
+public class UserController {
 
-	private final FormRepository formRepository;
+	private final BmUserDetailsService bmUserDetailsService;
 
 	@GetMapping
-	public Flux<Form> findAll() {
-		return Flux.fromIterable(formRepository.findAll());
+	public Flux<User> findAll() {
+		return bmUserDetailsService.readAll();
 	}
 
 	@GetMapping("/{id}")
-	public Mono<Form> findById(@Valid @PathVariable(name = "id", required = true) Long id) {
-		return Mono.just(formRepository.findById(id).orElseThrow());
+	public Mono<User> findById(@Valid @PathVariable(name = "id", required = true) Long id) {
+		return bmUserDetailsService.readById(id);
 	}
 
 	@PostMapping
-	public Mono<Form> save(@Valid @RequestBody Form form){
-		return Mono.just(formRepository.save(form));
+	public Mono<User> save(@Valid @RequestBody User user) {
+		return bmUserDetailsService.save(user);
 	}
 
 	@DeleteMapping("/{id}")
 	public Mono<Void> deleteById(@Valid @PathVariable(name = "id", required = true) Long id) {
-		return Mono.just(id).doOnNext(formRepository::deleteById).then();
+		return bmUserDetailsService.delete(id);
 	}
 
 }

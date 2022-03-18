@@ -1,4 +1,4 @@
-package com.cfg.bm.data.api.model;
+package com.cfg.bm.data.api.model.security;
 
 import java.io.Serializable;
 
@@ -23,25 +23,20 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
 @Entity
-public class User implements Serializable {
+public class UserAuthorityRole implements Serializable {
 
-	private static final long serialVersionUID = 3723583378982667984L;
+	private static final long serialVersionUID = -3737973350089904173L;
 
-	public static SequenceGenerator sequenceGeneratorToUserId;
+	public static SequenceGenerator sequenceGeneratorToUserAuthorityRoleId;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToUserId")
+	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToUserAuthorityRoleId")
 	@EqualsAndHashCode.Include
 	@ToString.Include
 	private long id;
-
+	
 	@Column
 	@NotNull
 	@ToString.Include
-	private String email;
-
-	@Column
-	@NotNull
-	private String passWordHashcode;
-
+	private String authorityRole;
 }
