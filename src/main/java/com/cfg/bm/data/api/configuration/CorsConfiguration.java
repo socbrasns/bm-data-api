@@ -14,6 +14,7 @@ public class CorsConfiguration implements WebFluxConfigurer {
 			.allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS", "HEAD", "TRACE", "CONNECT")
 			.allowCredentials(true)
 			.allowedHeaders("*")
+			.exposedHeaders("*")
 			;
 	}
 
