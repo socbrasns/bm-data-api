@@ -12,7 +12,7 @@ public class CorsConfiguration implements WebFluxConfigurer {
 		registry.addMapping("/**")
 			.allowedOriginPatterns("*")
 			.allowedMethods("GET", "POST", "PUT", "DELETE","OPTIONS", "HEAD", "TRACE", "CONNECT")
-			.allowCredentials(true)
+			.allowCredentials(false)
 			.allowedHeaders("*")
 			.exposedHeaders("*")
 			;
