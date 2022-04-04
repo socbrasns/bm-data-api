@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.cfg.bm</groupId>
 	<artifactId>bm-data-api</artifactId>
-	<version>0.0.7-SANPSHOT</version>
+	<version>0.0.8-SANPSHOT</version>
 	<name>bm-data-api</name>
 	<description>Data API for Benchmark</description>
 	<properties>
