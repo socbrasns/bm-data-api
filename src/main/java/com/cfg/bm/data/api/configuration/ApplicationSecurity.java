@@ -11,7 +11,10 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 public class ApplicationSecurity {
 	@Bean
 	public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-		return http.authorizeExchange()
+		return http
+				.csrf().disable()
+				.cors()
+				.and().authorizeExchange()
 				.anyExchange()
 				.permitAll()
 				.and().build();
