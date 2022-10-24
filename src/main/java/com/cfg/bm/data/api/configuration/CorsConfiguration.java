@@ -1,8 +1,6 @@
 package com.cfg.bm.data.api.configuration;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 
@@ -11,7 +9,7 @@ public class CorsConfiguration implements WebFluxConfigurer {
 
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
+//		registry.addMapping("/**")
 //			.allowedOriginPatterns("*")
 //			.allowedMethods(HttpMethod.GET.name(), 
 //					HttpMethod.POST.name(), 
@@ -23,7 +21,7 @@ public class CorsConfiguration implements WebFluxConfigurer {
 //			.allowCredentials(false)
 //			.allowedHeaders("*")
 //			.exposedHeaders("*")
-			;
+//		;
 	}
 
 }

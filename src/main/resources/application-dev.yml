@@ -5,24 +5,9 @@ logging:
 server:
   port: 8090
 spring:
-  cloud:
-    config:
-      enabled: false #retirar para ligar o config
   application:
     name: bm-data-api
-#  boot:
-#    admin:
-#      client:
-#        auto-deregistration: true
-#        instance:
-#          service-url: http://localhost:8090/
-#          name: Benchmarker Data API
-#          metadata:
-#            user: 
-#              name: shaddowuser
-#              password: H7T*$
-#        url:
-#        - http://localhost:8765/
+
   datasource:
     driverClassName: org.h2.Driver
     password: ''
@@ -36,21 +21,11 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
-eureka:
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka
-##      non-secure-port: 80
-##      secure-port: 443
-#  instance:
-##    non-secure-port: 80
-##    secure-port: 443
-#    hostname: localhost    
-#    statusPageUrl: http://${eureka.hostname}:${server.port}/actuator/info
-#    healthCheckUrl: http://${eureka.hostname}:${server.port}/actuator/health
-#    homePageUrl: http://${eureka.hostname}:${server.port}/
+
+jwt:
+  expiration: 900
+  secret: "cfgsecret"
+
 management:
   endpoint:
     health:
