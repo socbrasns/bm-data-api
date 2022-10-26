@@ -23,15 +23,13 @@ import com.cfg.bm.data.api.model.security.User;
 import com.cfg.bm.data.api.model.subhability.extrainfo.LevelComparation;
 import com.sun.istack.NotNull;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
 @Entity

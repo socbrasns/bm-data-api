@@ -7,14 +7,15 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 
 @SpringBootApplication
+//@EnableWebMvc
 //@EnableWebFlux
 //@EnableEurekaClient
 @OpenAPIDefinition(info = @Info(title = "Benchmarker API", version = "1.0", description = "Documentation Benchmarker API v1.0"))
 public class BmDataApiApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		SpringApplication.run(BmDataApiApplication.class, args);
-	}
+	SpringApplication.run(BmDataApiApplication.class, args);
+    }
 
 }

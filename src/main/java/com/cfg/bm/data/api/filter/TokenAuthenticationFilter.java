@@ -28,8 +28,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		Optional.ofNullable(request.getHeader("Authorization")).filter(tokenService::isTokenBearer)
-				.map(tokenService::sanitizeBearer).filter(tokenService::isTokenValid).map(tokenService::getTokenId)
+		if(request.getHeader("Authorization") != null) Optional.ofNullable(request.getHeader("Authorization"))
+				.filter(tokenService::isTokenBearer)
+				.map(tokenService::sanitizeBearer)
+				.filter(tokenService::isTokenValid)
+				.map(tokenService::getTokenId)
 				.map(t -> service.findById(t).orElseThrow())
 				.map(dbu -> new UsernamePasswordAuthenticationToken(dbu, null, dbu.getAuthorities()))
 				.ifPresent(auth -> {

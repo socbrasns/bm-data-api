@@ -19,55 +19,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.cfg.bm.data.api.model.security.User;
-import com.cfg.bm.data.api.service.UserService;
+import com.cfg.bm.data.api.model.Hability;
+import com.cfg.bm.data.api.service.HabilityService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/habilities")
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-public class UserController {
+public class HabilityController {
 
-	UserService service;
+	private final HabilityService service;
 
 	@GetMapping
-	public ResponseEntity<Page<User>> findAll(PageRequest pageRequest) {
+	public ResponseEntity<Page<Hability>> findAll(PageRequest pageRequest) {
 		return ResponseEntity.ok(service.findAll(pageRequest));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<User> findById(@Valid @PathVariable(name = "id", required = true) Long id) {
+	public ResponseEntity<Hability> findById(@PathVariable Long id) {
 		return ResponseEntity.of(service.findById(id));
 	}
 
-//	@GetMapping("/by-ids")
-//	public ResponseEntity<Iterable<User>> findAllById(@Valid @RequestBody List<Long> ids) {
-//		return ResponseEntity.ok(service.findAllById(ids));
-//	}
-
 	@PostMapping
-	public ResponseEntity<User> save(@Valid @RequestBody User user) {
-		User saved = service.save(user);
-		if (Objects.isNull(user.getId())) {
+	public ResponseEntity<Hability> save(@Valid @RequestBody Hability hability) {
+		Hability saved = service.save(hability);
+		if (Objects.isNull(hability.getId())) {
 			URI location = UriComponentsBuilder.fromUriString("/users/{id}").buildAndExpand(Map.of("id", saved.getId()))
 					.toUri();
 			return ResponseEntity.created(location).body(saved);
 		} else {
 			return ResponseEntity.accepted().body(saved);
 		}
-
 	}
 
-//	@PostMapping("/all")
-//	public ResponseEntity<Iterable<User>> saveAll(@Valid @RequestBody List<User> users) {
-//		return ResponseEntity.ok(service.saveAll(users));
-//	}
-
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteById(@Valid @PathVariable(name = "id", required = true) Long id) {
+	public ResponseEntity<Void> deleteById(@PathVariable Long id) {
 		service.deleteById(id);
 		return ResponseEntity.accepted().build();
 	}
-
 }

@@ -11,6 +11,5 @@ import com.cfg.bm.data.api.model.HabilityLevelMap;
 @Repository
 public interface HabilityLevelMapRepository extends PagingAndSortingRepository<HabilityLevelMap, Long> {
 
-	long deleteByHability(Hability hability);
-	List<HabilityLevelMap> findByHability(Hability hability);
+	List<HabilityLevelMap> findByHabilityId(Long id);
 }
