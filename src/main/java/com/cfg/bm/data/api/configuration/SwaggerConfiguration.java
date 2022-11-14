@@ -23,6 +23,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -35,6 +37,7 @@ import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
+@OpenAPIDefinition(info = @Info(title = "Benchmarker API", version = "1.0", description = "Documentation Benchmarker API v1.0"))
 public class SwaggerConfiguration {
 
     private ApiKey apiKey() {
@@ -54,9 +57,10 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket api() {
-	return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
+	return new Docket(DocumentationType.OAS_30).apiInfo(apiInfo())
 		.securityContexts(Arrays.asList(securityContext())).securitySchemes(Arrays.asList(apiKey())).select()
-		.apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+		.apis(RequestHandlerSelectors.basePackage("com.cfg.bm.data.api"))
+		.paths(PathSelectors.any()).build();
     }
 
     private ApiInfo apiInfo() {

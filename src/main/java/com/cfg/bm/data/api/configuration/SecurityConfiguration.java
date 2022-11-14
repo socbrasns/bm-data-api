@@ -13,7 +13,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsPasswordService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.cfg.bm.data.api.filter.TokenAuthenticationFilter;
@@ -28,17 +29,35 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationService authenticationService;
 
-	private static final String[] AUTH_SWAGGER_WHITELIST = {
-			// -- Swagger UI v2
-			"/v2/api-docs", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
-			"/configuration/security", "/swagger-ui.html", "/webjars/**",
-			// -- Swagger UI v3 (OpenAPI)
-			"/v3/api-docs/**", "/swagger-ui/**" };
+    @Autowired
+    UserDetailsPasswordService userDetailsPasswordService;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    private static final String[] AUTH_SWAGGER_WHITELIST = {
+	    // -- Swagger UI v2
+	    "/v2/api-docs", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
+	    "/configuration/security", "/swagger-ui.html", "/webjars/**",
+	    // -- Swagger UI v3 (OpenAPI)
+	    "/v3/api-docs/**", "/swagger-ui/**" };
+
+    private static final String[] AUTH_ACTUATOR_WHITELIST = { "/actuator/health" };
+
+    private static final String[] AUTH_H2_WHITELIST = { "/h2-console/**" };
+
+    private static final String[] AUTH_LOGIN_POST_WHITELIST = {
+	    // AUtentication
+	    "/auth",
+	    // Account Creation
+	    "/user/create-account" };
 
     // Configurations for authentication
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-	auth.userDetailsService(authenticationService).passwordEncoder(passwordEncoder());
+	auth.userDetailsService(authenticationService).passwordEncoder(encoder)
+		.userDetailsPasswordManager(userDetailsPasswordService);
+
     }
 
     @Override
@@ -51,23 +70,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 	http.authorizeRequests()
-	.antMatchers("/actuator/**").permitAll()
-	.antMatchers(AUTH_SWAGGER_WHITELIST).permitAll()
-	.antMatchers(HttpMethod.POST, "/auth").permitAll().antMatchers("/error/**").permitAll()
-		.anyRequest().authenticated().and().csrf().disable().sessionManagement()
-		.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+//	.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+		.antMatchers(AUTH_H2_WHITELIST).permitAll().antMatchers(AUTH_ACTUATOR_WHITELIST).permitAll()
+		.antMatchers(AUTH_SWAGGER_WHITELIST).permitAll().antMatchers(HttpMethod.POST, AUTH_LOGIN_POST_WHITELIST)
+		.permitAll().antMatchers("/error/**").permitAll()
+
+		.anyRequest().authenticated().and()
+		.cors().and()
+		.csrf().disable()
+		.rememberMe().key("rememberme").and()
+
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+	http.headers().frameOptions().disable();
+
     }
 
     // Configuration for static resources
     @Override
     public void configure(WebSecurity web) throws Exception {
 
-    }
-
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-	return new BCryptPasswordEncoder();
     }
 
 }

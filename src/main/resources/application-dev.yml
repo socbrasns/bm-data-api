@@ -1,23 +1,24 @@
+application:
+  title: "Benchmarker API for Benchmarker WebApp"
+  version: "v1.0"
 logging:
   level:
     root: INFO
+    web: INFO
+
 server:
   port: 8090
   error:
     include-message: always
     include-binding-errors: always
-    include-stacktrace: always
-    include-exception: true
     whitelabel:
       enabled: true
 spring:
   application:
     name: bm-data-api
-
   mvc:
     pathmatch:
           matching-strategy: ANT_PATH_MATCHER
-            
   datasource:
     driverClassName: org.h2.Driver
     password: ''
@@ -28,13 +29,20 @@ spring:
       enabled: true
       path: /h2-console
   jpa:
+    defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+    
 
 jwt:
-  expiration: 900
+  expiration: 15 #in minutes
   secret: "cfgsecret"
+  
+rememberme:
+  expiration: 1296000 # 15 days
+  secret: "cfgsecret"
+  key: "remember-me"
 
 management:
   endpoint:

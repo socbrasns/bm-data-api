@@ -23,7 +23,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.cfg.bm.data.api.model.HabilityLevelMap;
 import com.cfg.bm.data.api.service.HabilityLevelMapService;
-import com.cfg.bm.data.api.service.HabilityService;
 
 import lombok.AllArgsConstructor;
 

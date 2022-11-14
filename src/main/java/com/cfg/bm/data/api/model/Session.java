@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import com.cfg.bm.data.api.model.elements.KeyWord;
-import com.cfg.bm.data.api.model.security.User;
 import com.cfg.bm.data.api.model.subhability.extrainfo.LevelComparation;
 import com.sun.istack.NotNull;
 

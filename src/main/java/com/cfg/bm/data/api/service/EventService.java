@@ -5,8 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.cfg.bm.data.api.model.Form;
-import com.cfg.bm.data.api.repository.FormRepository;
+import com.cfg.bm.data.api.model.Event;
+import com.cfg.bm.data.api.repository.EventRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,26 +14,26 @@ import lombok.Data;
 @Service
 @Data
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-public class FormService {
+public class EventService {
 
-    FormRepository formRepository;
+    EventRepository eventRepository;
 
-    public Page<Form> findAll(Pageable pageable) {
-	return formRepository.findAll(pageable);
+    public Page<Event> findAll(Pageable pageable) {
+	return eventRepository.findAll(pageable);
     }
 
-    public Form findById(Long id) {
-	return formRepository.findById(id).orElseThrow();
+    public Event findById(Long id) {
+	return eventRepository.findById(id).orElseThrow();
     }
 
-    public Form save(Form form) {
-	return formRepository.save(form);
+    public Event save(Event event) {
+	return eventRepository.save(event);
     }
 
     public void delete(Long id) {// logical
 	var toDelete = findById(id);
 	toDelete.setEnabled(false);
-	formRepository.save(toDelete);
+	eventRepository.save(toDelete);
     }
 
 }

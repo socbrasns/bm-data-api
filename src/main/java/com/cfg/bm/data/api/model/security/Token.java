@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class Token {
 
-	String type;
-	String token;
+    String type;
+    String token;
 }

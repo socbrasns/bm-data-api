@@ -1,13 +1,12 @@
 package com.cfg.bm.data.api.service.security;
 
-import java.util.Date;
-import java.util.stream.Collectors;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import com.cfg.bm.data.api.model.security.User;
+import com.cfg.bm.data.api.model.Login;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -16,58 +15,66 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class TokenService {
 
-	private static final String BEARER = "Bearer ";
+    private static final String BEARER = "Bearer ";
 
-	@Value("${jwt.expiration}")
-	private String expiration;
+    @Value("${jwt.expiration}")
+    private Integer expiration;
 
-	@Value("${jwt.secret}")
-	private String secret;
+    @Value("${jwt.secret}")
+    private String secret;
 
-	public String generateToken(Authentication authentication) {
+    private String issuer = "cfgsolucoes.com";
 
-		User usuario = (User) authentication.getPrincipal();
+    public String generateTokenRememberme(Authentication rememberMeAuthenticationToken) {
 
-		Date now = new Date();
-		Date exp = new Date(now.getTime() + Long.parseLong(expiration));
+	return "token_rememberme";
+    }
 
-		return Jwts.builder().setIssuer("cfgsolucoes.com").setSubject(String.valueOf(usuario.getId()))
-				.setIssuedAt(new Date()).setExpiration(exp).signWith(SignatureAlgorithm.HS256, secret)
-				.setClaims(usuario.getAuthorities().stream()
-						.collect(Collectors.toMap(a -> String.valueOf(a.getId()), a -> a.getAuthority())))
-				.compact();
+    public String generateToken(Authentication authentication, Login login) {
+
+	login.setTokenIssuedAt(Calendar.getInstance());
+	login.setTokenExpirationDate(login.getTokenIssuedAt());
+	login.getTokenExpirationDate().roll(Calendar.MINUTE, expiration);
+
+	Claims claims = getClaims(login);
+
+	return Jwts.builder().setIssuer(claims.getIssuer()).setSubject(claims.getSubject())
+		.setIssuedAt(claims.getIssuedAt()).setExpiration(claims.getExpiration()).setId(claims.getId())
+		.signWith(SignatureAlgorithm.HS256, secret).setClaims(claims).compact();
+    }
+
+    public Claims getClaims(Login login) {
+	Claims claims = Jwts.claims();
+	claims.put(Claims.ISSUER, issuer);
+	claims.put(Claims.ID, login.getLogedUser().getUsername());
+	claims.put(Claims.SUBJECT, String.valueOf(login.getLogedUser().getUuid().getMostSignificantBits()));
+	claims.put(Claims.ISSUED_AT, login.getTokenIssuedAt().getTime());
+	claims.put(Claims.EXPIRATION, login.getTokenExpirationDate().getTime());
+	return claims;
+    }
+
+    public boolean isTokenBearerType(String token) {
+	return token.startsWith(BEARER);
+    }
+
+    public String sanitizeBearer(String bearer) {
+	return bearer.substring(BEARER.length());
+    }
+
+    public String getTokenId(String token) {
+	return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody().getId();
+    }
+
+    public boolean isTokenValid(String token) {
+	try {
+	    Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+//	    Jwts.parser().setSigningKey(secret).requireIssuer(claims.getIssuer()).requireId(claims.getId())
+//		    .requireSubject(claims.getSubject()).requireIssuedAt(claims.getIssuedAt())
+//		    .requireExpiration(claims.getExpiration());
+	    return true;
+	} catch (Exception e) {
+	    return false;
 	}
-
-	public boolean isTokenBearer(String token) {
-		return token.startsWith(BEARER);
-	}
-
-	public String sanitizeBearer(String bearer) {
-		return bearer.substring(BEARER.length());
-	}
-
-	public Long getTokenId(String token) {
-		Claims body = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-		return Long.valueOf(body.getSubject());
-	}
-
-	public boolean isTokenValid(String token) {
-		try {
-			Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getSignature().equals(secret);
-			return true;
-//					.getBody().equals(dbu.getAuthorities()
-//					.stream().collect(Collectors.toMap(a -> String.valueOf(a.getId()), a -> a.getAuthority())));
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-//	public boolean isTokenExpired(String token) {
-//		try {
-//			return Jwts.parser().requireNotBefore(new Date()).isSigned(secret);
-//		} catch (Exception e) {
-//			return false;
-//		}
-//	}
+    }
 
 }

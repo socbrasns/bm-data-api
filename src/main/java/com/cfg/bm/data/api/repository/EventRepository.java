@@ -1,5 +1,7 @@
 package com.cfg.bm.data.api.repository;
 
+import java.util.Calendar;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,23 +10,23 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import com.cfg.bm.data.api.model.Form;
+import com.cfg.bm.data.api.model.Event;
 
 @Repository
-public interface FormRepository extends PagingAndSortingRepository<Form, Long> {
+public interface EventRepository extends PagingAndSortingRepository<Event, Long> {
 
     @Component
     @Profile("dev")
-    public class FormCreator {
+    public class EventCreator {
 	@Autowired
-	private FormRepository formRepository;
+	private EventRepository eventRepository;
 
 	@PostConstruct
 	public void init() {
-	    Form f = new Form();
-	    f.setName("WFO - Well Formed Objectives");
-	    f.setVersion("v1.0-test");
-	    formRepository.save(f);
+	    Event e = new Event();
+	    e.setName("Local Sessions");
+	    e.setDate(Calendar.getInstance());
+	    eventRepository.save(e);
 
 	}
     }

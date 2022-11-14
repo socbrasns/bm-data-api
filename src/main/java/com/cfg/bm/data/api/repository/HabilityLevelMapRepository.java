@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
-import com.cfg.bm.data.api.model.Hability;
 import com.cfg.bm.data.api.model.HabilityLevelMap;
 
 @Repository
