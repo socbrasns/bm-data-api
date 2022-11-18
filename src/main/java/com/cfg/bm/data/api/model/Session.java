@@ -66,6 +66,11 @@ public class Session implements Serializable {
 	@JoinTable(inverseJoinColumns = @JoinColumn(name = "user_id"))
 	@ToString.Include
 	private List<User> metaPerson;
+	
+	//campo destinado a restringir  acesso das metaPersons participantes da sessão ao conteúdo da mesma sessão
+	@OneToMany
+	@JoinTable(inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private List<User> restrictedAccessData;
 
 	@Column
 	@ToString.Include

@@ -47,10 +47,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String[] AUTH_H2_WHITELIST = { "/h2-console/**" };
 
     private static final String[] AUTH_LOGIN_POST_WHITELIST = {
-	    // AUtentication
+	    // Authentication
 	    "/auth",
 	    // Account Creation
-	    "/user/create-account" };
+	    "/user" };
 
     // Configurations for authentication
     @Override
@@ -75,10 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers(AUTH_SWAGGER_WHITELIST).permitAll().antMatchers(HttpMethod.POST, AUTH_LOGIN_POST_WHITELIST)
 		.permitAll().antMatchers("/error/**").permitAll()
 
-		.anyRequest().authenticated().and()
-		.cors().and()
-		.csrf().disable()
-		.rememberMe().key("rememberme").and()
+		.anyRequest().authenticated().and().cors().and().csrf().disable().rememberMe().key("rememberme").and()
 
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.addFilterBefore(new TokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

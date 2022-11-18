@@ -13,7 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cfg.bm.data.api.model.security.Auditory;
@@ -46,8 +49,13 @@ public class User implements UserDetails, Principal {
 
     @Column
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "authority", cascade = CascadeType.ALL)
+
     @Getter(onMethod_ = { @Override })
     private Collection<UserAuthority> authorities;
+
+    @OneToMany(mappedBy = "uuid")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private Collection<Event> events;
 
     @Column
     @Getter(onMethod_ = { @Override })

@@ -11,22 +11,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.cfg.bm.data.api.model.Event;
+import com.cfg.bm.data.api.model.Place;
+import com.cfg.bm.data.api.model.enums.Country;
+
+import lombok.AllArgsConstructor;
 
 @Repository
 public interface EventRepository extends PagingAndSortingRepository<Event, Long> {
 
     @Component
     @Profile("dev")
+    @AllArgsConstructor(onConstructor_ = { @Autowired })
     public class EventCreator {
-	@Autowired
+
 	private EventRepository eventRepository;
 
 	@PostConstruct
 	public void init() {
-	    Event e = new Event();
-	    e.setName("Local Sessions");
-	    e.setDate(Calendar.getInstance());
-	    eventRepository.save(e);
+	    eventRepository.save(new Event().name("Local Session").date(Calendar.getInstance())
+		    .palce(new Place().country(Country.BR).location("Test Location")));
 
 	}
     }

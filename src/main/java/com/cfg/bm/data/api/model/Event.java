@@ -8,7 +8,6 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,8 +21,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(fluent = true)
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
@@ -51,12 +52,19 @@ public class Event implements Serializable {
     @ToString.Include
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Embedded
+    private Place palce;
+
+    @ManyToMany
     @Column
     private List<Form> forms;
 
+    @ManyToMany
     @Column
-    private boolean enabled = true;;
+    private List<Session> sessions;
+
+    @Column
+    private boolean enabled = true;
 
     @Embedded
     private Auditory auditory;

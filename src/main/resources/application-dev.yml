@@ -22,7 +22,7 @@ spring:
   datasource:
     driverClassName: org.h2.Driver
     password: ''
-    url: jdbc:h2:mem:bmapidb;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:file:./bmapi.db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username: sa
   h2:
     console:
@@ -32,7 +32,7 @@ spring:
     defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     
 
 jwt:
