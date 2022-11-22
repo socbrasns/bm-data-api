@@ -8,12 +8,12 @@ import javax.persistence.Embeddable;
 import com.cfg.bm.data.api.model.enums.Country;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(fluent = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable

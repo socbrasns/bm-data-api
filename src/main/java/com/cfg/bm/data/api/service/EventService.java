@@ -31,7 +31,9 @@ public class EventService {
     }
 
     public void delete(Long id) {// logical
-	eventRepository.save(findById(id).enabled(false));
+	var toDelete = findById(id);
+	toDelete.setEnabled(false);
+	eventRepository.save(toDelete);
     }
 
 }

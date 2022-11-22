@@ -1,5 +1,7 @@
 package com.cfg.bm.data.api.repository;
 
+import java.util.Optional;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,7 @@ import com.cfg.bm.data.api.model.User;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     @Component
     @Profile("dev")
@@ -29,7 +31,9 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 	    User u = new User();
 	    u.setUsername("test@test.com");
 	    u.setPassword(encoder.encode("test"));
-	    userRepository.save(u);
+	    Optional.of(u).map(User::getName).map(userRepository::findByUsername).filter(Optional::isEmpty)
+		    .ifPresent(o -> userRepository.save(u));
+
 	}
     }
 }

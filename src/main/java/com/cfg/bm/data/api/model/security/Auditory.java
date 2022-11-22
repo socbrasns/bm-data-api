@@ -49,11 +49,8 @@ public class Auditory implements Serializable {
 
 	Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
 		.filter(auth -> auth.isAuthenticated()).map(auth -> auth.getPrincipal()).map(Principal.class::cast)
-		.ifPresentOrElse(p -> {
-		    lastAlterationUser = userRepository.findByUsername(p.getName());
-		}, () -> {
-		    lastAlterationUser = null;
-		});
+		.map(Principal::getName).map(userRepository::findByUsername).filter(Optional::isPresent)
+		.map(Optional::get).ifPresentOrElse(u -> setLastAlterationUser(u), () -> setLastAlterationUser(null));
 
     }
 }

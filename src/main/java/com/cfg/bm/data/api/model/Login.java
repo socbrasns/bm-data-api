@@ -18,11 +18,15 @@ import javax.persistence.Transient;
 
 import com.cfg.bm.data.api.model.enums.LoginUserRole;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Login implements Serializable {
 

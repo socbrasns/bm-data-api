@@ -26,7 +26,7 @@ public class UserService {
     private PasswordEncoder encoder;
 
     public User findByUsername(String username) {
-	return Optional.ofNullable(userRepository.findByUsername(username)).orElseThrow();
+	return userRepository.findByUsername(username).orElseThrow();
     }
 
     public Page<User> findAll(Pageable pageable) {

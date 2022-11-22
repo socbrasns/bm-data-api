@@ -17,15 +17,17 @@ import javax.persistence.TemporalType;
 
 import com.cfg.bm.data.api.model.security.Auditory;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(fluent = true)
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
 @Entity
@@ -48,7 +50,7 @@ public class Event implements Serializable {
     @ToString.Include
     private Calendar date;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @ToString.Include
     private String name;
 

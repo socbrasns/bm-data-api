@@ -1,9 +1,7 @@
 package com.cfg.bm.data.api.model;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -14,19 +12,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import org.springframework.lang.Nullable;
-
 import com.cfg.bm.data.api.model.security.Auditory;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 
 @Data
-@Accessors(fluent = true)
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
 @Entity

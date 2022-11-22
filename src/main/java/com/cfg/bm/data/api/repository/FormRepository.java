@@ -21,8 +21,9 @@ public interface FormRepository extends PagingAndSortingRepository<Form, Long> {
 
 	@PostConstruct
 	public void init() {
-	    formRepository.save(new Form().name("WFO - Well Formed Objectives").version("v1.0-test"));
-
+	    if (!formRepository.findAll().iterator().hasNext()) {
+		formRepository.save(Form.builder().name("WFO - Well Formed Objectives").version("v1.0-test").build());
+	    }
 	}
     }
 }

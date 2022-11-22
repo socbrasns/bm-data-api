@@ -1,6 +1,7 @@
 package com.cfg.bm.data.api.repository;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -19,6 +20,8 @@ import lombok.AllArgsConstructor;
 @Repository
 public interface EventRepository extends PagingAndSortingRepository<Event, Long> {
 
+    Optional<Event> findByName(String name);
+
     @Component
     @Profile("dev")
     @AllArgsConstructor(onConstructor_ = { @Autowired })
@@ -28,8 +31,10 @@ public interface EventRepository extends PagingAndSortingRepository<Event, Long>
 
 	@PostConstruct
 	public void init() {
-	    eventRepository.save(new Event().name("Local Session").date(Calendar.getInstance())
-		    .palce(new Place().country(Country.BR).location("Test Location")));
+	    Event e = Event.builder().name("Local Session").date(Calendar.getInstance())
+		    .palce(Place.builder().country(Country.BR).location("Test Location").build()).build();
+	    Optional.of(e).map(Event::getName).map(eventRepository::findByName).filter(Optional::isEmpty)
+		    .ifPresent(o -> eventRepository.save(e));
 
 	}
     }

@@ -21,12 +21,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cfg.bm.data.api.model.security.Auditory;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User implements UserDetails, Principal {
 

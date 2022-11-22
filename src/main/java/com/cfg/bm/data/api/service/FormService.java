@@ -31,7 +31,9 @@ public class FormService {
     }
 
     public void delete(Long id) {// logical
-	formRepository.save(findById(id).enabled(false));
+	var toDelete = findById(id);
+	toDelete.setEnabled(false);
+	formRepository.save(toDelete);
     }
 
 }
