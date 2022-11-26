@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.cfg.bm.data.api.model.Form;
 import com.cfg.bm.data.api.repository.FormRepository;
+import com.cfg.bm.data.api.request.SearchRequest;
+import com.cfg.bm.data.api.specification.SearchSpecification;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +22,10 @@ public class FormService {
 
     public Page<Form> findAll(Pageable pageable) {
 	return formRepository.findAll(pageable);
+    }
+
+    public Page<Form> search(SearchRequest searchRequest) {
+	return formRepository.findAll(new SearchSpecification<Form>(searchRequest), searchRequest.getPageable());
     }
 
     public Form findById(Long id) {

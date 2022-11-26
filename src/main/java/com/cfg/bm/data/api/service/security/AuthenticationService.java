@@ -12,9 +12,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.cfg.bm.data.api.model.Login;
+import com.cfg.bm.data.api.model.User;
 import com.cfg.bm.data.api.model.security.Token;
-import com.cfg.bm.data.api.service.LoginService;
 import com.cfg.bm.data.api.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -24,8 +23,6 @@ import lombok.AllArgsConstructor;
 public class AuthenticationService implements UserDetailsService {
 
     private UserService userService;
-
-    private LoginService loginService;
 
     private TokenService tokenService;
 
@@ -38,24 +35,25 @@ public class AuthenticationService implements UserDetailsService {
 
     @Transactional
     public Token login(Authentication auth) {
-	var login = Login.builder() // include new login
-		.logedUser(userService.findByUsername(Principal.class.cast(auth.getPrincipal()).getName())).build();
 
-	return verifyInvalidUserAccount(login).orElse(Token.builder().type("Bearer")
-		.token(tokenService.generateToken(auth, loginService.save(login))).build());
-
+	var u = userService.findByUsername(Principal.class.cast(auth.getPrincipal()).getName());
+	var t = verifyInvalidUserAccount(u)
+		.orElse(Token.builder().type("Bearer").token(tokenService.generateToken(u)).build());
+	userService.save(u);
+	return t;
     }
 
-    private Optional<Token> verifyInvalidUserAccount(Login login) {
-	if (!login.getLogedUser().isAccountNonExpired()) { // expired
+    private Optional<Token> verifyInvalidUserAccount(User user) {
+
+	if (user.isAccountNonExpired()) { // expired
 	    return Optional.of(Token.builder().type("Error").token("Please contact Administratos.").build());
-	} else if (!login.getLogedUser().isAccountNonLocked()) { // locked to use before email confirmation
+	} else if (user.isAccountNonLocked()) { // locked to use before email confirmation
 	    return Optional.of(
 		    Token.builder().type("Error").token("You need to confirm your e-mail to use this API.").build());
-	} else if (!login.getLogedUser().isCredentialsNonExpired()) { // password expired to password reset use
+	} else if (user.isCredentialsNonExpired()) { // password expired to password reset use
 	    return Optional.of(Token.builder().type("Error")
 		    .token("Reset your password, follow the link in your e-mail.").build());
-	} else if (!login.getLogedUser().isEnabled()) { // inactive deleted
+	} else if (user.isEnabled()) { // inactive deleted
 	    return Optional.of(Token.builder().type("Error").token("Account inactive.").build());
 	} else {
 	    return Optional.empty();

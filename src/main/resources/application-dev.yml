@@ -31,6 +31,7 @@ spring:
   jpa:
     defer-datasource-initialization: true
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
     hibernate:
       ddl-auto: update
     
@@ -38,6 +39,7 @@ spring:
 jwt:
   expiration: 15 #in minutes
   secret: "cfgsecret"
+  issuer: "cfgsolucoes.com"
   
 rememberme:
   expiration: 1296000 # 15 days

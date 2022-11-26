@@ -33,7 +33,7 @@ public class Form implements Serializable {
     private static final long serialVersionUID = -4653703250913981079L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToFormId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     @ToString.Include
     private Long id;
@@ -51,7 +51,8 @@ public class Form implements Serializable {
     private List<Hability> habilities;
 
     @Column
-    private boolean enabled = true;;
+    @Builder.Default
+    private boolean enabled = true;
 
     @Embedded
     private Auditory auditory;

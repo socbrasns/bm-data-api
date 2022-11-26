@@ -10,8 +10,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
@@ -33,7 +31,7 @@ public class Login implements Serializable {
     private static final long serialVersionUID = 7110298951389039898L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToFormId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Transient
@@ -47,16 +45,12 @@ public class Login implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    private LoginUserRole role = LoginUserRole.GUEST;
+    private LoginUserRole loginUserRole = LoginUserRole.GUEST;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Builder.Default
     @Column
     private final Calendar lastLoginDate = Calendar.getInstance();
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "User_UUID", referencedColumnName = "uuid")
-    private User logedUser;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column

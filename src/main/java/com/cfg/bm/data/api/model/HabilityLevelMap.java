@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -30,10 +29,8 @@ public class HabilityLevelMap implements Serializable {
 
 	private static final long serialVersionUID = -8934017433277389379L;
 
-	public static SequenceGenerator sequenceGeneratorToFormId;
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToHabilityLevelMapId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@EqualsAndHashCode.Include
 	@ToString.Include
 	private Long id;

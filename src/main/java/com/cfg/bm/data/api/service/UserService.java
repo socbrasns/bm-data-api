@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.cfg.bm.data.api.model.User;
 import com.cfg.bm.data.api.repository.UserRepository;
+import com.cfg.bm.data.api.request.SearchRequest;
+import com.cfg.bm.data.api.specification.SearchSpecification;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +29,10 @@ public class UserService {
 
     public User findByUsername(String username) {
 	return userRepository.findByUsername(username).orElseThrow();
+    }
+
+    public Page<User> search(SearchRequest searchRequest) {
+	return userRepository.findAll(new SearchSpecification<User>(searchRequest), searchRequest.getPageable());
     }
 
     public Page<User> findAll(Pageable pageable) {
@@ -55,11 +61,4 @@ public class UserService {
 	user.setPassword(encoder.encode(newPassword));
 	return userRepository.save(user);
     }
-
-//    public static User extractUser(Principal principal) throws NoSuchFieldException, SecurityException {
-//	UserService userService = new UserService(ApplicationContextUtils.getBean(UserRepository.class),
-//		ApplicationContextUtils.getBean(PasswordEncoder.class));
-//
-//	return userService.findByUsername(Objects.requireNonNull(principal).getName());
-//    }
 }

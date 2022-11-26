@@ -1,15 +1,13 @@
 package com.cfg.bm.data.api.controller.rest;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cfg.bm.data.api.controller.api.UserController;
 import com.cfg.bm.data.api.model.User;
+import com.cfg.bm.data.api.request.SearchRequest;
 import com.cfg.bm.data.api.service.UserService;
 
 import lombok.AllArgsConstructor;
@@ -26,23 +24,25 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
-    public User findById(@Valid Long id) {
+    public User findById(Long id) {
 	return service.findById(id);
     }
 
     @Override
-    public User save(@Valid User user) {
-//	var saved = service.createAccount(user);
+    public User save(User user) {
 	return service.save(user);
-//		ResponseEntity.created(
-//		UriComponentsBuilder.fromUriString("/user/{id}").buildAndExpand(Map.of("id", saved.getId())).toUri())
-//		.body(saved);
+
     }
 
     @Override
-    public Void deleteById(@Valid Long id) {
+    public Void deleteById(Long id) {
 	service.delete(id);
 	return null;
+    }
+
+    @Override
+    public Page<User> search(SearchRequest searchRequest) {
+	return service.search(searchRequest);
     }
 
 }

@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.cfg.bm.data.api.model.Form;
 
 @Repository
-public interface FormRepository extends PagingAndSortingRepository<Form, Long> {
+public interface FormRepository extends PagingAndSortingRepository<Form, Long>, JpaSpecificationExecutor<Form> {
 
     @Component
     @Profile("dev")

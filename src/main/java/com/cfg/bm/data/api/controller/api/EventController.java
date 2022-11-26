@@ -17,14 +17,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.cfg.bm.data.api.model.Event;
+import com.cfg.bm.data.api.request.SearchRequest;
 
-@RequestMapping("/event")
+@RequestMapping("event")
 public interface EventController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.OK)
     Page<Event> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable);
+
+    @GetMapping(value = "search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
+    Page<Event> search(SearchRequest searchRequest);
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

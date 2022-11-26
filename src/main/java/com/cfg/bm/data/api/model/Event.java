@@ -2,6 +2,7 @@ package com.cfg.bm.data.api.model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,7 +12,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -36,13 +39,14 @@ public class Event implements Serializable {
     private static final long serialVersionUID = -4653703250913981079L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToEventId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     @ToString.Include
     private Long id;
 
     @Column(nullable = false, unique = true)
     @ToString.Include
+    @Builder.Default
     private UUID uuid = UUID.randomUUID();
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -54,20 +58,22 @@ public class Event implements Serializable {
     @ToString.Include
     private String name;
 
-    @Embedded
-    private Place palce;
+    @Column
+    @ToString.Include
+    private String location;
 
     @ManyToMany
     @Column
     private List<Form> forms;
 
-    @ManyToMany
     @Column
-    private List<Session> sessions;
-
-    @Column
+    @Builder.Default
     private boolean enabled = true;
 
     @Embedded
     private Auditory auditory;
+
+    @OneToMany
+    @JoinColumn(name = "session_id")
+    private Collection<Session> sessions;
 }

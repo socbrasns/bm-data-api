@@ -2,11 +2,15 @@ package com.cfg.bm.data.api.service.security;
 
 import java.util.Calendar;
 
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.cfg.bm.data.api.model.Login;
+import com.cfg.bm.data.api.model.User;
+import com.cfg.bm.data.api.service.LoginService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,33 +27,34 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    private String issuer = "cfgsolucoes.com";
+    @Value("${jwt.issuer}")
+    private String issuer;
 
-    public String generateTokenRememberme(Authentication rememberMeAuthenticationToken) {
+    @Autowired
+    LoginService loginService;
 
-	return "token_rememberme";
-    }
+    @Transactional
+    public String generateToken(User user) {
 
-    public String generateToken(Authentication authentication, Login login) {
+	var cal = Calendar.getInstance();
+	var exp = cal;
+	exp.roll(Calendar.MINUTE, expiration);
 
-	login.setTokenIssuedAt(Calendar.getInstance());
-	login.setTokenExpirationDate(login.getTokenIssuedAt());
-	login.getTokenExpirationDate().roll(Calendar.MINUTE, expiration);
+	user.setLogin(loginService.save(Login.builder().tokenIssuedAt(cal).tokenExpirationDate(exp).build()));
 
-	Claims claims = getClaims(login);
-
+	Claims claims = getClaims(user);
 	return Jwts.builder().setIssuer(claims.getIssuer()).setSubject(claims.getSubject())
 		.setIssuedAt(claims.getIssuedAt()).setExpiration(claims.getExpiration()).setId(claims.getId())
 		.signWith(SignatureAlgorithm.HS256, secret).setClaims(claims).compact();
     }
 
-    public Claims getClaims(Login login) {
+    public Claims getClaims(User user) {
 	Claims claims = Jwts.claims();
 	claims.put(Claims.ISSUER, issuer);
-	claims.put(Claims.ID, login.getLogedUser().getUsername());
-	claims.put(Claims.SUBJECT, String.valueOf(login.getLogedUser().getUuid().getMostSignificantBits()));
-	claims.put(Claims.ISSUED_AT, login.getTokenIssuedAt().getTime());
-	claims.put(Claims.EXPIRATION, login.getTokenExpirationDate().getTime());
+	claims.put(Claims.ID, user.getUsername());
+	claims.put(Claims.SUBJECT, String.valueOf(user.getUuid().getMostSignificantBits()));
+	claims.put(Claims.ISSUED_AT, user.getLogin().getTokenIssuedAt().getTime());
+	claims.put(Claims.EXPIRATION, user.getLogin().getTokenExpirationDate().getTime());
 	return claims;
     }
 

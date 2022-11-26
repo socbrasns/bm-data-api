@@ -17,14 +17,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.cfg.bm.data.api.model.Form;
+import com.cfg.bm.data.api.request.SearchRequest;
 
-@RequestMapping("/form")
+@RequestMapping("form")
 public interface FormController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.OK)
     Page<Form> findAll(@PageableDefault(page = 0, size = 10) Pageable pageable);
+
+    @GetMapping(value = "search", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
+    Page<Form> search(SearchRequest searchRequest);
 
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody

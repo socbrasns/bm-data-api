@@ -8,50 +8,53 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString(onlyExplicitlyIncluded = true, includeFieldNames = true)
 @Entity
 public class Hability implements Serializable {
 
-	private static final long serialVersionUID = -1337010680790951007L;
+    private static final long serialVersionUID = -1337010680790951007L;
 
-	public static SequenceGenerator sequenceGeneratorToHabilityId;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "sequenceGeneratorToHabilityId")
-	@EqualsAndHashCode.Include
-	@ToString.Include
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
+    @ToString.Include
+    private Long id;
 
-	@Column
-	@ToString.Include
-	private String name;
+    @Column
+    @ToString.Include
+    private String name;
 
-	@Column
-	@ToString.Include
-	private BigDecimal startScaleValue;
+    @Column
+    @ToString.Include
+    private BigDecimal startScaleValue;
 
-	@Column
-	@ToString.Include
-	private Long numberOfElementsInScale;
-	
-	@Column
-	@ToString.Include
-	private BigDecimal stepIncrementScaleValue;
+    @Column
+    @ToString.Include
+    private Long numberOfElementsInScale;
 
-	@Column
-	@ToString.Include
-	private BigDecimal percentualStartLevel;
+    @Column
+    @ToString.Include
+    private BigDecimal stepIncrementScaleValue;
+
+    @Column
+    @ToString.Include
+    private BigDecimal percentualStartLevel;
+
+    @Column
+    @Builder.Default
+    private boolean enabled = true;
 
 }

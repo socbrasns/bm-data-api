@@ -7,32 +7,32 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cfg.bm.data.api.controller.api.FormController;
-import com.cfg.bm.data.api.model.Form;
+import com.cfg.bm.data.api.controller.api.HabilityController;
+import com.cfg.bm.data.api.model.Hability;
 import com.cfg.bm.data.api.request.SearchRequest;
-import com.cfg.bm.data.api.service.FormService;
+import com.cfg.bm.data.api.service.HabilityService;
 
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-public class FormControllerImpl implements FormController {
+public class HabilityControllerImpl implements HabilityController {
 
-    private final FormService service;
+    private final HabilityService service;
 
     @Override
-    public Page<Form> findAll(Pageable pageable) {
+    public Page<Hability> findAll(Pageable pageable) {
 	return service.findAll(pageable);
     }
 
     @Override
-    public Form findById(@Valid Long id) {
+    public Hability findById(@Valid Long id) {
 	return service.findById(id);
     }
 
     @Override
-    public Form save(@Valid Form form) {
-	return service.save(form);
+    public Hability save(@Valid Hability Hability) {
+	return service.save(Hability);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class FormControllerImpl implements FormController {
     }
 
     @Override
-    public Page<Form> search(SearchRequest searchRequest) {
+    public Page<Hability> search(SearchRequest searchRequest) {
 	return service.search(searchRequest);
     }
 
